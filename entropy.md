@@ -2,15 +2,17 @@
 ## 熵
 当我们观测到了一个随机变量x的真实值，怎么度量我们获得了多少信息（降低了多少未知性/混乱）？
 
-if p(x) > p(y) then h(x) < h(y) 
-h(x,y) = h(x) + h(y) 以及 p(x, y) = p(x)p(y)
-联想到log(xy) = log(x) + log(y)
-那么h(x) = -log(p(x))
-熵： H[x] = E[h(x)] 
+if p(x) > p(y) then h(x) < h(y)   
+h(x,y) = h(x) + h(y) 以及 p(x, y) = p(x)p(y)  
+联想到log(xy) = log(x) + log(y)  
+那么h(x) = -log(p(x))  
+熵： H[x] = E[h(x)]   
 离散： 
+
 ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/concreteEntropy.gif)
 
 连续： 
+
 ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/CodeCogsEqn.gif)
 
 H[x]只和p(x)的形式有关，和具体的值无关，是x这个随机变量的信息量的平均度量
@@ -53,8 +55,8 @@ W = ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/bucketNObj.gif)
 
 ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/kl_div.png)
 
-从定义可看出KL(pq) !≡ KL(qp).
-可由KL的凸性和琴生不等式推导出： KL(pq) >= 0 
+从定义可看出KL(pq) !≡ KL(qp).  
+可由KL的凸性和琴生不等式推导出： KL(pq) >= 0   
 只有当p(x)=q(x)处处相等时，KL=0成立
 
 **互信息**： 描述x和y的相关度, 通过p(x,y)和p(x)p(y)的KL散度来衡量
@@ -63,7 +65,7 @@ W = ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/bucketNObj.gif)
 ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/mutual_info.png)
 
 可见，只有当x,y相互独立，即p(x,y) = p(x)p(y)时，I[x,y] = 0
-另外，推导可得：
+另外，推导可得：  
 I[x, y] = H[x] − H[x|y] = H[y] − H[y|x].
 
 ### 韦恩图
