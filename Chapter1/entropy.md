@@ -65,7 +65,9 @@ W = ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/bucketNObj.gif)
 ![](https://images-1256319930.cos.ap-shanghai.myqcloud.com/mutual_info.png)
 
 可见，只有当x,y相互独立，即p(x,y) = p(x)p(y)时，I[x,y] = 0
+
 另外，推导可得：  
+
 I[x, y] = H[x] − H[x|y] = H[y] − H[y|x].
 
 ### 韦恩图
