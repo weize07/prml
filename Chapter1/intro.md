@@ -113,5 +113,79 @@ $p(D)=\bf \int p(D|w)p(w)dw$
 
 $ \mathcal{N}(x|\mathcal{u}, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}exp\{-\frac{1}{2\sigma^2}(x-\mathcal{u})^2\} $
 
-$ \mathcal{N}(x|u, \sum) = \frac{1}{\sqrt{(2\pi)^D|\sum|}}exp\{-\frac{1}{2}(x-u)^T\sum(x-u)\} $
+$ \mathcal{N}(x|u, \sum) = \frac{1}{\sqrt{(2\pi)^D|\sum|}}exp\{-\frac{1}{2}(x-u)^T\sum^{-1}(x-u)\} $
 
+
+
+#### Revisit Curve fitting
+
+Given dataset: $ {\bf x} = (x_1,...,x_N)^T $, $ {\bf t}= (t_1,...,t_N)T $
+
+We assume: $ p(t|x,{\bf w},\beta) = \mathcal{N}(t|y(x,{\bf w}),\beta^{-1})  $
+
+![revisit_curve_fitting](./images/curve_fitting_revisit.png)
+
+Likelihood function:
+$$
+\begin{aligned}
+p({\bf t}|{\bf x, w},\beta) &= \prod\limits_{n=1}^N\mathcal{N}(t_n|\ y(x_n,{\bf w}),\beta^{-1})\\
+&=\prod\limits_{n=1}^N(\frac{\beta}{2\pi})^{\frac{1}{2}}e^{-\frac{\beta}{2}(y(x_n,{\bf w})-t_n)^2}
+\end{aligned}
+$$
+Log likelihood:
+$$
+lnp({\bf t}|{\bf x, w},\beta) = -\frac{\beta}{2}\sum\limits_{n=1}^N\{y(x_n, {\bf w})-t_n\}^2+\frac{N}{2}ln\beta-\frac{N}{2}ln(2\pi)
+$$
+Maximize log likelihood with respect to $\bf w$ is equivalent to maximize **sum-of-squares error function** defined before. While maximize it with respect to $\beta$ gives:
+$$
+\frac{1}{\beta_{ML}} = \frac{1}{N}\sum\limits_{n=1}^N\{y(x_n, {\bf w_{ML}} ) - t_n\}^2
+$$
+Predict:
+$$
+p(t|x,{\bf w_{ML},\beta_{ML}})=\mathcal{N}(t|y(x, {\bf w_{ML}}), \beta_{ML}^{-1})
+$$
+Introduce a prior distribution over $ \bf w:$ 
+
+$ \ p({\bf w}|\alpha) = \mathcal{N}({\bf w}|{\bf 0, \alpha^{-1}I})=(\frac{\alpha}{2\pi})^{(M+1)/2}exp\{-\frac{\alpha}{2}{\bf w^Tw}\} $
+
+posterior for $ \bf w: $ 
+
+ $ p({\bf w}|{\bf x,t},\alpha, \beta) \propto p({\bf t}|{\bf x, w}, \beta) p({\bf w}|\alpha) $
+
+Maximum posterior(MAP): 
+
+$ \bf w_{MAP}=\min\limits_{\bf w}ln\ p({\bf w}|{\bf x,t},\alpha, \beta)=\min\limits_{\bf w}\{\frac{\beta}{2}\sum\limits_{n=1}^N[y(x_n,{\bf w}) - t_n]^2 + \frac{\alpha}{2}\bf{w^Tw}\} $
+
+**Thus, maximizing the posterior distribution is equivalent to minimizing the regularized sum-of-squares error function.**
+
+
+
+#### Bayesian Curve fitting
+
+MAP(maximizing the posterior) and ML(maximizing the likelihood) are both "**point estimate**" methods. 
+
+A more Bayesian way is introduced:
+$$
+\begin{aligned}
+p(t|x,{\bf x, t})&=\int p(t|x,{\bf w})p({\bf w|t,x})d{\bf w}\\
+&=\mathcal{N}(t|m(x),s^2(x))
+\end{aligned}
+$$
+where the mean and var will be given and discussed in detail in Chapter 3.
+
+
+
+#### Problems when dimen goes high
+
+* too many coefficients.
+
+* Our geometrical intuitions, formed through a life spent in a space of three dimensions, can fail badly when we consider spaces of higher dimensionality. 
+
+  **Example:** 
+
+  Consider a sphere of radius r = 1 in a space of D dimensions, and ask what is the fraction of the volume of the sphere that lies between radius r = 1 − $\epsilon$ and r = 1. We can evaluate this fraction by noting that the volume of a sphere of radius r in D dimensions must scale as $ r^D $, and so we write 
+  $$
+  V_D(r) = K_Dr^D\\
+  \frac{V_D(1)-V_D(1-\epsilon)}{V_D(1)}=1-(1-\epsilon)^D
+  $$
+  for large D(high dimen space), the fraction tends to 1 even for small $ \epsilon $. Which means most of the volume of a sphere in high-dimen space is **concentrated in a thin shell near the surface.**
