@@ -189,3 +189,52 @@ where the mean and var will be given and discussed in detail in Chapter 3.
   \frac{V_D(1)-V_D(1-\epsilon)}{V_D(1)}=1-(1-\epsilon)^D
   $$
   for large D(high dimen space), the fraction tends to 1 even for small $ \epsilon $. Which means most of the volume of a sphere in high-dimen space is **concentrated in a thin shell near the surface.**
+
+
+
+### Decision theory
+
+Two stages of typical machine learning:
+
+* Inference: Determine $ p({\bf x, t})\ or\ p({\bf t|x}) $ from training dataset.
+
+* Decision: choose the best $ \bf t $ given $ {\bf x}\ and\ p({\bf x, t})\ or\ p({\bf t|x})$
+  $$
+  \begin{aligned}
+  p(mistake)&=p(x \in R_1,C_2)+p(x \in R_2, C_1)\\
+  &=\int_{R_1}p(x, C_2)dx+\int_{R_2}p(x,C_1)dx
+  \end{aligned}
+  $$
+  so, we should choose the bigger $ p(x, C_k) $ to minimize the mistake. Also, because $ p(x, C_k)=p(x|C_k)p(x) $, we should choose the bigger $ p(x|C_k) $.
+
+#### reject option
+
+Introduce a threshold $ \theta $ and make no decisions when the largest probability $ p(C_k|{\bf x}) $ is less than $ \theta $
+
+#### generative and discriminative
+
+##### classification problem
+
+**(a)** First solve the inference problem of $ p(x|C_k)\ and\ p(C_k)$, then use Bayes' theorem to get $ p(C_k|x) $
+
+Equivalently, we can model $ p(x,C_k) $ and then normalize to obtain the posterior distribution.
+
+**(b)** Solve the inference problem of $ p(C_k|x) $ directly.
+
+* (a) is known as **generative model**, (b) is called **discriminative model**
+
+(a) need more computation but provides more information about data distribution. (b) is more efficient.
+
+**Example:**
+
+![discri_and_gen](./images/discri_and_gen.png)$ p(C_k|x) $ can be used to determine class directly, while $ p(x|C_k) $ contains raw info about data distribution.
+
+
+
+##### regression problem
+
+(a) First solve the inference problem of determining the joint density $p(x, t)$. Then normalize to find the conditional density $p(t|x)$, and finally marginalize to find the conditional mean. 
+
+ (b) First solve the inference problem of determining the conditional density $p(t|x)$,  and then subsequently marginalize to find the conditional mean.
+
+ (c) Find a regression function $ y(x) $ directly from the training data. 
